@@ -148,3 +148,25 @@ class NeoRomanTest < MiniTest::Unit::TestCase
     assert_equal 'OOO', 3000.to_neoroman
   end
 end
+
+class ExoRomanTest < MiniTest::Unit::TestCase
+  def test_4000
+    assert_equal 'O*', 4000.to_exoroman
+  end
+
+  def test_5000
+    assert_equal '*', 5000.to_exoroman
+  end
+
+  def test_7000
+    assert_equal '*OO', 7000.to_exoroman
+  end
+
+  def test_9000
+    assert_equal 'O&', 9000.to_exoroman
+  end
+
+  def test_10_000
+    assert_equal '&', 10_000.to_exoroman
+  end
+end
