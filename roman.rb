@@ -1,17 +1,18 @@
 class Fixnum
-  ROMAN_CONVERSION = {1000 => "M", 500 => "D", 100 => "C", 50 => "L", 10 => "X", 5 => "V", 1 => "I"}
 
   def to_roman
-    t, rem = to_thousands(self)
-    h, rem = to_hundreds(rem)
-    te, rem = to_tens(rem)
-    o, _ = to_ones(rem)
-
-    t + h + te + o
+    conversion = {1000 => "M", 500 => "D", 100 => "C", 50 => "L", 10 => "X", 5 => "V", 1 => "I"}
+    to_letters(conversion)
   end
 
   def to_neoroman
     conversion = {1000 => "O", 500 => "Q", 100 => "G", 50 => "P", 10 => "B", 5 => "R", 1 => "J"}
+    to_letters(conversion)
+  end
+
+  private
+
+  def to_letters(conversion)
     t, rem = to_thousands(self, conversion)
     h, rem = to_hundreds(rem, conversion)
     te, rem = to_tens(rem, conversion)
@@ -20,14 +21,12 @@ class Fixnum
     t + h + te + o
   end
 
-  private
-
-  def to_thousands(x, conversion = ROMAN_CONVERSION)
+  def to_thousands(x, conversion)
     rom = conversion[1000] * (x / 1000)
     [rom, x.remainder(1000)]
   end
 
-  def to_hundreds(x, conversion = ROMAN_CONVERSION)
+  def to_hundreds(x, conversion)
     h = x / 100
     rom = case
     when (h == 9)
@@ -42,7 +41,7 @@ class Fixnum
     [rom, x.remainder(100)]
   end
 
-  def to_tens(x, conversion = ROMAN_CONVERSION)
+  def to_tens(x, conversion)
     t = x / 10
     rom = case
     when (t == 9)
@@ -57,7 +56,7 @@ class Fixnum
     [rom, x.remainder(10)]
   end
 
-  def to_ones(x, conversion = ROMAN_CONVERSION)
+  def to_ones(x, conversion)
     case
     when (x == 9)
       "#{conversion[1]}#{conversion[10]}"
