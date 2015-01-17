@@ -11,10 +11,11 @@ class Fixnum
   end
 
   def to_neoroman
-    t, rem = to_neo_thousands(self)
-    h, rem = to_neo_hundreds(rem)
-    te, rem = to_neo_tens(rem)
-    o, _ = to_neo_ones(rem)
+    conversion = {1000 => "O", 500 => "Q", 100 => "G", 50 => "P", 10 => "B", 5 => "R", 1 => "J"}
+    t, rem = to_thousands(self, conversion)
+    h, rem = to_hundreds(rem, conversion)
+    te, rem = to_tens(rem, conversion)
+    o, _ = to_ones(rem, conversion)
 
     t + h + te + o
   end
@@ -66,56 +67,6 @@ class Fixnum
       "#{conversion[1]}#{conversion[5]}"
     else
       conversion[1] * x
-    end
-  end
-
-  def to_neo_thousands(x)
-    rom = "O" * (x / 1000)
-    [rom, x.remainder(1000)]
-  end
-
-  def to_neo_hundreds(x)
-    h = x / 100
-    rom = case
-    when (h == 9)
-      "GO"
-    when (h >= 5)
-      "Q" + ("G" * (h - 5))
-    when (h == 4)
-      "GQ"
-    else
-      "G" * h
-    end
-    [rom, x.remainder(100)]
-  end
-
-  def to_neo_tens(x)
-    t = x / 10
-    rom = case
-    when (t == 9)
-      "BG"
-    when (t >= 5)
-      "P" + ("B" * (t - 5))
-    when (t == 4)
-      "BP"
-    when (t > 0)
-      "B" * t
-    else
-      ""
-    end
-    [rom, x.remainder(10)]
-  end
-
-  def to_neo_ones(x)
-    case
-    when (x == 9)
-      "JB"
-    when (x >= 5)
-      "R" + ("J" * (x - 5))
-    when (x == 4)
-      "JR"
-    else
-      "J" * x
     end
   end
 end
