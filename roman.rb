@@ -13,6 +13,11 @@ class Fixnum
     dictionary = {10_000 => "&", 5000 => "*", 1000 => "O", 500 => "Q", 100 => "G", 50 => "P", 10 => "B", 5 => "R", 1 => "J"}
     RomanConverter.new(dictionary, DeciRomans).convert(self)
   end
+
+  def to_duodeciroman
+    dictionary = {1728 => "Â", 864 => "Î", 144 => "Ç", 72 => "Ò", 12 => "¶", 6 => "∂", 1 => "˚"}
+    RomanConverter.new(dictionary, DuoDeciRomans).convert(self)
+  end
 end
 
 class RomanConverter
@@ -47,6 +52,16 @@ end
 class DeciRomans
   def self.multiple
     10
+  end
+
+  def self.half_multiple
+    multiple/2
+  end
+end
+
+class DuoDeciRomans
+  def self.multiple
+    12
   end
 
   def self.half_multiple
