@@ -1,34 +1,36 @@
 class Fixnum
   def to_roman
     dictionary = {1000 => "M", 500 => "D", 100 => "C", 50 => "L", 10 => "X", 5 => "V", 1 => "I"}
-    RomanConverter.new(dictionary, DeciRomans).convert(self)
+    RomanNumerals.new(dictionary, DeciRomans, self).to_s
   end
 
   def to_neoroman
     dictionary = {1000 => "O", 500 => "Q", 100 => "G", 50 => "P", 10 => "B", 5 => "R", 1 => "J"}
-    RomanConverter.new(dictionary, DeciRomans).convert(self)
+    RomanNumerals.new(dictionary, DeciRomans, self).to_s
   end
 
   def to_exoroman
     dictionary = {10_000 => "&", 5000 => "*", 1000 => "O", 500 => "Q", 100 => "G", 50 => "P", 10 => "B", 5 => "R", 1 => "J"}
-    RomanConverter.new(dictionary, DeciRomans).convert(self)
+    RomanNumerals.new(dictionary, DeciRomans, self).to_s
   end
 
   def to_duodeciroman
     dictionary = {1728 => "Â", 864 => "Î", 144 => "Ç", 72 => "Ò", 12 => "¶", 6 => "∂", 1 => "˚"}
-    RomanConverter.new(dictionary, DuoDeciRomans).convert(self)
+    RomanNumerals.new(dictionary, DuoDeciRomans, self).to_s
   end
 end
 
-class RomanConverter
-  attr_accessor :dictionary, :family
-  def initialize(dictionary, family)
+class RomanNumerals
+  attr_accessor :dictionary, :family, :number
+  def initialize(dictionary, family, number)
     self.dictionary = dictionary
     self.family = family
+    self.number = number
   end
 
-  def convert(num)
+  def to_s
     letters = ""
+    num = number
     dictionary.keys.each_slice(2) do |multiple, _|
       x = num / multiple
       rom = case
