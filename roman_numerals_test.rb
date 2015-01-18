@@ -170,3 +170,29 @@ class ExoRomanTest < MiniTest::Unit::TestCase
     assert_equal '&', 10_000.to_exoroman
   end
 end
+
+class DuoDeciRomanTest < MiniTest::Unit::TestCase
+  def test_1
+    assert_equal '˚', 1.to_duodeciroman
+  end
+
+  def test_5
+    assert_equal '˚∂', 5.to_duodeciroman
+  end
+
+  def test_6
+    assert_equal '∂', 6.to_duodeciroman
+  end
+
+  def test_11
+    assert_equal '˚¶', 11.to_duodeciroman
+  end
+
+  def test_12
+    assert_equal '¶', 12.to_duodeciroman
+  end
+
+  def test_3456
+    assert_equal 'ÂÂ', 3456.to_duodeciroman
+  end
+end
