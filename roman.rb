@@ -10,22 +10,7 @@ class Fixnum
     to_letters(conversion)
   end
 
-  def to_exoroman
-    conversion = {10_000 => "&", 5000 => "*", 1000 => "O", 500 => "Q", 100 => "G", 50 => "P", 10 => "B", 5 => "R", 1 => "J"}
-    to_exoletters(conversion)
-  end
-
   private
-
-  def to_exoletters(conversion)
-    tt, rem = to_exo_ten_thousands(self, conversion)
-    t, rem = to_exo_thousands(rem, conversion)
-    h, rem = to_hundreds(rem, conversion)
-    te, rem = to_tens(rem, conversion)
-    o, _ = to_ones(rem, conversion)
-
-    tt + t + h + te + o
-  end
 
   def to_letters(conversion)
     t, rem = to_thousands(self, conversion)
@@ -34,26 +19,6 @@ class Fixnum
     o, _ = to_ones(rem, conversion)
 
     t + h + te + o
-  end
-
-  def to_exo_ten_thousands(x, conversion)
-    rom = conversion[10000] * (x / 10000)
-    [rom, x.remainder(10000)]
-  end
-
-  def to_exo_thousands(x, conversion)
-    h = x / 1000
-    rom = case
-    when (h == 9)
-      "#{conversion[1000]}#{conversion[10000]}"
-    when (h >= 5)
-      conversion[5000] + (conversion[1000] * (h - 5))
-    when (h == 4)
-      "#{conversion[1000]}#{conversion[5000]}"
-    else
-      conversion[1000] * h
-    end
-    [rom, x.remainder(1000)]
   end
 
   def to_thousands(x, conversion)
