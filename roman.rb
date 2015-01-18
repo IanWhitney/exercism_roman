@@ -9,6 +9,11 @@ class Fixnum
     to_letters(conversion)
   end
 
+  def to_exoroman
+    conversion = {10_000 => "&", 5000 => "*", 1000 => "O", 500 => "Q", 100 => "G", 50 => "P", 10 => "B", 5 => "R", 1 => "J"}
+    to_letters(conversion)
+  end
+
   private
 
   def to_letters(conversion)
