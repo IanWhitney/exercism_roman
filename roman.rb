@@ -14,6 +14,11 @@ class Fixnum
     to_letters(conversion)
   end
 
+  def to_duodeciroman
+    conversion = {1728 => "Â", 864 => "Î", 144 => "Ç", 72 => "Ò", 12 => "¶", 6 => "∂", 1 => "˚"}
+    to_duodeci_letters(conversion)
+  end
+
   private
 
   def to_letters(conversion)
@@ -32,6 +37,27 @@ class Fixnum
         conversion[multiple_of_ten] * x
       end
       num = num.remainder(multiple_of_ten)
+      letters += rom
+    end
+    letters
+  end
+
+  def to_duodeci_letters(conversion)
+    letters = ""
+    num = self
+    conversion.keys.each_slice(2) do |multiple_of_twelve, _|
+      x = num / multiple_of_twelve
+      rom = case
+      when (x == 11)
+        "#{conversion[multiple_of_twelve]}#{conversion[multiple_of_twelve * 12]}"
+      when (x >= 6)
+        conversion[multiple_of_twelve * 6] + (conversion[multiple_of_twelve] * (x - 6))
+      when (x == 5)
+        "#{conversion[multiple_of_twelve]}#{conversion[multiple_of_twelve * 6]}"
+      else
+        conversion[multiple_of_twelve] * x
+      end
+      num = num.remainder(multiple_of_twelve)
       letters += rom
     end
     letters
